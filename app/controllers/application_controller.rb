@@ -1,11 +1,13 @@
 class ApplicationController < ActionController::API
-    before_action :authorized
+    # before_action :authorized
     
+    #let's issue a token
     def encode_token(payload)
         JWT.encode(payload, ENV['JWT_KEY'])
     end
     
     def auth_header
+        # { 'Authorization': 'Bearer <token>' }
         request.headers['Authorization']
     end
     
@@ -14,7 +16,7 @@ class ApplicationController < ActionController::API
         token = auth_header.split(' ')[1]
         begin
             JWT.decode(token, ENV['JWT_KEY'], true, algorithm: 'HS256')
-        rescue JWT::DecodeError
+        rescue JWT::DecodeError  # if our server receives a bad token, instead of crashing our server, we simply return nil.
             nil
         end
         end
@@ -22,7 +24,8 @@ class ApplicationController < ActionController::API
     
     def current_user
         if decoded_token
-        user_id = decoded_token[0]['user_id']
+        # decoded_token=> [{"user_id"=>1}, {"alg"=>"HS256"}]
+        user_id = decoded_token[0]['user_id'] 
         @user = User.find_by(id: user_id)
         end
     end
