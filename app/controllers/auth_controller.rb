@@ -15,7 +15,18 @@ class AuthController < ApplicationController
         if user && logged_in?
           render json: {username: user.username, id: user.id, email: user.email}
         else
-          render json: {error: 'User not foun'}, status: :unauthorized
+          render json: {error: 'User not found'}, status: :unauthorized
+        end
+    end
+
+    def get_current_user
+        user = current_user
+        #byebug
+        if user 
+            render json: {username: user.username, id: user.id, email: user.email}
+            #byebug
+        else
+            render json: {error: 'No one logged in '}
         end
     end
 end
