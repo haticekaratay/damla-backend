@@ -12,5 +12,12 @@ class ExpensesController < ApplicationController
             render json: { error: "Add expense has failed. Try again"}
         end
     end
+
+    def destroy
+        expense = Expense.find(params[:id])
+        expense.destroy
+        render json: expense.id
+    end
+    
 end
   
