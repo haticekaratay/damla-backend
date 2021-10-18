@@ -16,4 +16,11 @@ class IncomesController < ApplicationController
         end
     end
 
+
+    def destroy
+        income = Income.find(params[:id])
+        income.destroy
+        render json: income.id
+    end
+
 end
