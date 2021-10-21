@@ -1,5 +1,5 @@
 class IncomesController < ApplicationController
-    # before_action :authorized
+     before_action :authorized
 
     def index
         #byebug
@@ -12,7 +12,7 @@ class IncomesController < ApplicationController
         if income.save
             render json: income, except: [:created_at, :updated_at]
         else
-            render json: { error: "Try again."}#, status: :unauthorized #status: :unprocessable_entity
+            render json: { message: "Try again.", error: income.errors.full_messages}#, status: :unauthorized #status: :unprocessable_entity
         end
     end
 
