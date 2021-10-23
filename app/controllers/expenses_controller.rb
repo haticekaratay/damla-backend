@@ -3,7 +3,7 @@ class ExpensesController < ApplicationController
     
     def index
         expenses = current_user.expenses
-        render json: expenses, except: [:created_at, :updated_at]
+        render json: expenses.order_by_name, except: [:created_at, :updated_at]
     end
 
     def create
@@ -11,7 +11,7 @@ class ExpensesController < ApplicationController
         if expense.save
             render json: expense, except: [:created_at, :updated_at]
         else 
-            render json: { message: "Try again.", error: expense.errors.full_messages}
+            render json: { error: "Try again."}
         end
     end
 
@@ -29,7 +29,7 @@ class ExpensesController < ApplicationController
         elsif params[:name] && expense.update(name: params[:name])
             render json: expense, except: [:created_at, :updated_at] 
         else
-            render json: { message: "Edit is unsuccessfull.Try again" , error: expense.errors.full_messages}
+            render json: { message: "Edit is unsuccessfull.Try again" }
         end
     end
 

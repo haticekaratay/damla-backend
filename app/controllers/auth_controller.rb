@@ -6,7 +6,7 @@ class AuthController < ApplicationController
             token = encode_token({ user_id: user.id })  #Token from the application controller
             render json: {username: user.username, email: user.email, jwt: token}
         else
-            render json: {error: 'Invalid username or password!'}, status: :unauthorized
+            render json: {message: 'Invalid username or password!'}, status: :unauthorized
         end
     end
         
@@ -15,7 +15,7 @@ class AuthController < ApplicationController
         if user && logged_in?
           render json: {username: user.username, id: user.id, email: user.email}
         else
-          render json: {error: 'User not found'}, status: :unauthorized
+          render json: {message: 'User not found'}, status: :unauthorized
         end
     end
 
@@ -26,7 +26,7 @@ class AuthController < ApplicationController
             render json: {username: user.username, id: user.id, email: user.email}
             #byebug
         else
-            render json: {error: 'No one logged in '}
+            render json: {message: 'No one logged in '}
         end
     end
 end
