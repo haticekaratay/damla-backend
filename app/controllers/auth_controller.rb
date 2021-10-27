@@ -21,10 +21,8 @@ class AuthController < ApplicationController
 
     def get_current_user
         user = current_user
-        #byebug
         if user 
             render json: {username: user.username, id: user.id, email: user.email}
-            #byebug
         else
             render json: {message: 'No one logged in '}
         end
